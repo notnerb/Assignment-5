@@ -35,7 +35,9 @@
           as specified in 'config/listings.client.routes.js'. The listing id is passed in as a parameter. 
           When a user clicks on a table row, the view will display a single listing and the state change will be
           reflected in the browser's URL. 
+          -in other words, this will switch states when clicked.
           -->
+
         <tr ng-repeat="listing in listings | filter: query" ui-sref="listings.view({ listingId: listing._id })">
           <td>{{listing.code}}</td>
           <td>{{listing.name}}</td>
