@@ -74,14 +74,47 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
     };
 
     $scope.update = function(isValid) {
-      /*
+    	$scope.error = null;
+    	/*
         Fill in this function that should update a listing if the form is valid. Once the update has 
         successfully finished, navigate back to the 'listing.list' state using $state.go(). If an error 
         occurs, pass it to $scope.error. 
        */
+     if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'articleForm');
+
+        return false;
+      }
+     var id = $stateParams.listingId;
+      /* Create the listing object */
+      var newlisting = {
+        name: $scope.name, 
+        code: $scope.code, 
+        address: $scope.address
+      };
+
+      /* Save the article using the Listings factory */
+      Listings.update(id, newlisting)
+              .then(function(response) {
+                //if the object is successfully saved redirect back to the list page
+                $state.go('listings.list', { successMessage: 'Listing successfully updated!' });
+              }, function(error) {
+                //otherwise display the error
+                $scope.error = 'Unable to update listing!\n' + error;
+              });
+
     };
 
     $scope.remove = function() {
+    	var id = $stateParams.listingId;
+    	Listings.delete(id)
+	    	.then(function(response) {
+	                //if the object is successfully saved redirect back to the list page
+	                $state.go('listings.list', { successMessage: 'Listing successfully deleted' });
+	              }, function(error) {
+	                //otherwise display the error
+	                $scope.error = 'Unable to delete listing!\n' + error;
+	              });
       /*
         Implement the remove function. If the removal is successful, navigate back to 'listing.list'. Otherwise, 
         display the error. 
