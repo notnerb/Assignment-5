@@ -8,17 +8,21 @@
     https://angular-ui.github.io/angular-google-maps/#!/api/markers
     https://angular-ui.github.io/angular-google-maps/#!/api/windows
   -->
-  <ui-gmap-google-map center='{map.center}'
-                    control='{Object}'
-                    zoom='{map.zoom}'
-                    dragging='{expression}'
-                    refresh='{expression}'
-                    options='{expression}'
-                    events='{expression}'
-                    bounds='{expression}'
-                    pan='{'true'}'
-        >
+<div id="map_canvas" ng-controller="ListingsController" ng-init="find()">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" pan = "true">
+    	<ui-gmap-markers models="listings" idKey= "'_id'" coords = "'coordinates'">
+    	 	<ui-gmap-windows show="show">
+                <div ng-non-bindable> 
+                <ul>
+				  <li>{{name}}</li>
+				  <li>{{code}}</li>
+				  <li>{{address}}</li>
+				</ul>
+				                 
+				                 </div>
+            </ui-gmap-windows>
+        </ui-gmap-markers>
 
-    <!-- other ui-gmap-directives here -->
 
-</ui-gmap-google-map>
+    </ui-gmap-google-map>
+</div>
